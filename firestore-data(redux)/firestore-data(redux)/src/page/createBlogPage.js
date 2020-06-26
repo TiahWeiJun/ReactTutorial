@@ -1,5 +1,7 @@
 import React from 'react'
 import firebase, { db } from '../config/firebaseconfig'
+import {createBlog} from '../actions/blogactions.js'
+import {connect} from 'react-redux'
 
 
 class CreateBlogPage extends React.Component{
@@ -23,10 +25,8 @@ class CreateBlogPage extends React.Component{
             ...this.state,
             created: firebase.firestore.Timestamp.now()
         }
-        db.collection('blogs').add(newPost).then(()=>{
-            this.props.history.replace('/blogs')
-            
-        })
+        this.props.createBlog(newPost)
+        this.props.history.replace('/')
     }
         
     
@@ -68,4 +68,10 @@ class CreateBlogPage extends React.Component{
     }
 }
 
-export default CreateBlogPage
+const mapDispatchToProps = dispatch => {
+    return{
+        createBlog: (blog) => dispatch(createBlog(blog))
+    }
+}
+
+export default connect(null,mapDispatchToProps)(CreateBlogPage)

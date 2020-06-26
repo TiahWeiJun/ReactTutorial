@@ -1,37 +1,27 @@
 import React from 'react';
 import BlogSummary from '../blogsummary/blogsummary.js'
 import {db} from '../config/firebaseconfig.js';
+import {connect} from 'react-redux'
+import {getFromFirestore} from '../actions/blogactions.js'
 
 
 class BlogListPage extends React.Component {
 
-  state = {
-    blogs: [],
-    authorFilter: ''
-  }
+  constructor(props) {
+    super(props);
+    this.state = {authorFilter: ''};
+    this.props.getFromFirestore()
 
-  componentDidMount(){
-    db.collection('blogs').orderBy("created", 'desc').onSnapshot(snapshot => {
-      const blogs = []
-      snapshot.forEach(doc => {
-        let newdoc = {
-          ...doc.data(),
-          id: doc.id
-        }
-        blogs.push(newdoc)
-
-      })
-      this.setState({
-        blogs: blogs
-      })
-    })
   }
+  
 
   handleClickBlog = (id) => {
+    console.log(this.props)
     this.props.history.push('/blogs/' + id)
   }
 
   handleOnChange = (e) =>{
+    console.log(e.target.value)
     this.setState({
       ...this.state,
       authorFilter: e.target.value
@@ -44,13 +34,14 @@ class BlogListPage extends React.Component {
 }
 
   render(){
+    console.log(this.props.blogs)
     let body
-    if (this.state.blogs){
+    if (this.props.blogs){
       body = (
         <div>
         <label>By Author</label>
         <input type="text" name='author' onChange = {this.handleOnChange} />
-        {this.state.blogs.map(blog => {
+        {this.props.blogs.map(blog => {
           if (blog.author.includes(this.state.authorFilter)){
             return <BlogSummary clickedBlog = {() => this.handleClickBlog(blog.id)} deletePost = {() => this.handleDeletePost(blog.id)} key={blog.id} title = {blog.title} summary = {blog.summary} author = {blog.author} />
           }
@@ -61,12 +52,28 @@ class BlogListPage extends React.Component {
       </div>
       )
     }
+    else{
+      body= null
+    }
     return (
       body
     );
   }
   }
+
+  const mapStateToProps = state => {
+    return {
+      blogs: state.blogs
+    }
+
+  }
   
 
+  const mapDispatchToProps = dispatch => {
+    return{
+        getFromFirestore: () => dispatch(getFromFirestore())
+    }
+}
 
-export default (BlogListPage)
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogListPage)
