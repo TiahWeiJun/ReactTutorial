@@ -26,8 +26,7 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 signUpRedirect: action.redirect,
-                alert: action.alert,
-                
+                   
             }
 
         case "SIGN_UP_FAILURE":
@@ -41,6 +40,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 currentUser: null,
                 signInRedirect: action.redirect
+            }
+        case "SET_USER":
+            return {
+                ...state,
+                currentUser: action.user,
             }
 
 

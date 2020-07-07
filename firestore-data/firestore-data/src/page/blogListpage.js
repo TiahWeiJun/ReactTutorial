@@ -7,24 +7,26 @@ class BlogListPage extends React.Component {
 
   state = {
     blogs: [],
-    authorFilter: ''
+    authorFilter: '',
   }
 
   componentDidMount(){
-    db.collection('blogs').orderBy("created", 'desc').onSnapshot(snapshot => {
-      const blogs = []
-      snapshot.forEach(doc => {
-        let newdoc = {
-          ...doc.data(),
-          id: doc.id
-        }
-        blogs.push(newdoc)
+      db.collection('blogs').orderBy("created", 'desc').onSnapshot(snapshot => {
+        const blogs = []
+        snapshot.forEach(doc => {
+          let newdoc = {
+            ...doc.data(),
+            id: doc.id
+          }
+          blogs.push(newdoc)
+  
+        })
+        this.setState({
+          blogs: blogs
+        })
+      })
+    
 
-      })
-      this.setState({
-        blogs: blogs
-      })
-    })
   }
 
   handleClickBlog = (id) => {
@@ -42,6 +44,7 @@ class BlogListPage extends React.Component {
     db.collection('blogs').doc(id).delete()
     
 }
+
 
   render(){
     let body
@@ -67,6 +70,7 @@ class BlogListPage extends React.Component {
   }
   }
   
+
 
 
 export default (BlogListPage)

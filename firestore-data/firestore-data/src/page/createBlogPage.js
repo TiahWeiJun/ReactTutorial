@@ -68,4 +68,7 @@ class CreateBlogPage extends React.Component{
     }
 }
 
-export default CreateBlogPage
+
+
+
+export default (CreateBlogPage)

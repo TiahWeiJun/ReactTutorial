@@ -12,17 +12,19 @@ class BlogDetailPage extends React.Component{
     componentDidMount(){
         const id = this.props.match.params.id
         db.collection('blogs').where(firebase.firestore.FieldPath.documentId(), '==', id).onSnapshot(snapshot => {
-            let blog
-            snapshot.forEach(doc => {
-                blog = doc.data()
-            })
-            this.setState({
-                ...this.state,
-                blog: blog
-            })
-            console.log(this.state)
+        let blog
+        snapshot.forEach(doc => {
+            blog = doc.data()
+        })
+        this.setState({
+            ...this.state,
+            blog: blog
+        })
+        console.log(this.state)
     }
         )
+        
+        
 }
 
     render(){
@@ -46,4 +48,6 @@ class BlogDetailPage extends React.Component{
     
 }
 
-export default BlogDetailPage
+
+
+export default (BlogDetailPage)

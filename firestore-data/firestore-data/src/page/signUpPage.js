@@ -6,8 +6,8 @@ import {Signup} from '../reduceractions/authactions.js'
 class SignUpPage extends React.Component{
 
     state = {
-        firstname: '',
-        lastname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
     }
@@ -23,7 +23,10 @@ class SignUpPage extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault()
         const signUpInfo = {email: this.state.email,
-                            password: this.state.password}
+                            password: this.state.password,
+                            firstName: this.state.firstName,
+                            lastName: this.state.lastName,
+                            initials: this.state.firstName[0] + this.state.lastName[0]}
         this.props.Signup(signUpInfo)
         
     }
@@ -45,12 +48,12 @@ class SignUpPage extends React.Component{
 
                     <div style = {{marginBottom: "40px"}}>
                         <label>First Name</label>
-                        <input type="text" name="firstname" placeholder="First Name" onChange = {this.handleOnChange}/>
+                        <input type="text" name="firstName" placeholder="First Name" onChange = {this.handleOnChange}/>
                     </div>
 
                     <div style = {{marginBottom: "40px"}}>
                         <label>Last Name</label>
-                        <input type="text" name="lastname" placeholder="Last name" onChange = {this.handleOnChange}/>
+                        <input type="text" name="lastName" placeholder="Last name" onChange = {this.handleOnChange}/>
                     </div>
 
 

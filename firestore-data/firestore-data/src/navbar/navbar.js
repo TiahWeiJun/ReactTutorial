@@ -3,8 +3,27 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Signout} from '../reduceractions/authactions.js'
 import {withRouter} from 'react-router-dom'
+import firebase ,{db} from '../config/firebaseconfig.js'
 
 class Navbar extends React.Component {
+    state = {
+        initials: ''
+    }
+
+    /*componentDidMount(){
+            db.collection('users').where(firebase.firestore.FieldPath.documentId(), '==', this.props.user.uid).get().then(snapshot=> {
+            snapshot.docs.forEach(doc=>{
+                this.setState({
+                    initials: doc.data().initials
+                })
+            })
+            }
+                )  
+        }*/
+    
+        
+
+
 
     handleSignOut = (e) => {
         this.props.Signout()
@@ -13,7 +32,6 @@ class Navbar extends React.Component {
     }
 
     render(){
-        console.log(this.props.user)
         let nav
         if (!this.props.user){
             nav = (
@@ -32,7 +50,7 @@ class Navbar extends React.Component {
                     <ul style ={{display: 'flex', justifyContent: 'center'}}>
                         <li style = {{margin: '0 10px'}}><NavLink to='/blogs'>Home</NavLink></li>
                         <li style = {{margin: '0 10px'}}><NavLink to='/create'>Create Blog</NavLink></li>
-                        <li style = {{margin: '0 10px'}}><NavLink to='/blogs'>Profile</NavLink></li>
+                        <li style = {{margin: '0 10px'}}><NavLink to='/blogs'>{this.state.initials}</NavLink></li>
                         <li style = {{margin: '0 10px'}}><button onClick = {this.handleSignOut}>Sign Out</button></li>
                         
                     </ul>
